@@ -1,0 +1,32 @@
+{% extends "header.html" %}
+
+{% block content%}
+    <h1> User Registration</h1>
+        <form action="" method="POST" novalidate>
+            {{form.hidden_tag() }}
+            <p> {{form.username.label}} <b>
+                {{form.username(size=50)}}
+                {% for errors in form.username.errors %}
+                <span style="color:blue;"> [{{ error }}] </span>
+                {% endfor %}
+            </p>
+
+            <p> {{form.password.label}} <b>
+                {{form.password(size=50)}}
+                {% for errors in form.password.errors %}
+                <span style="color:blue;"> [{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{form.remember_me() }}
+                {{form.remember_me.label}}
+            </p>
+
+            <p> New User? <a href="{{url_for('register')}}">Click to register</a></p>
+
+            <p> {{form.btn_submit() }} </p> 
+
+        </form>
+
+{% endblock %}
