@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
 from application import app, db
 from application.forms import LoginForm, RegistrationForm
-from application.models import User
+from application.models import Users
 from application.forms import EditProfileForm
 
 
@@ -37,7 +37,7 @@ def login ():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = Users.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data) :
             flash ('Invalid username or password')
             return redirect(url_for('login'))
@@ -62,7 +62,7 @@ def register():
 
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = Users(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -73,7 +73,7 @@ def register():
 @app.route('/user/<username>')
 @login_required
 def user(username) :
-    user = User.query.filter_by(username =username).first_or_404()
+    user = Users.query.filter_by(username =username).first_or_404()
     samples = [
         {'researcher': user, 'location': 'Test sample #1'},
         {'researcher': user, 'species': 'Test sample #2'}
@@ -90,7 +90,7 @@ def before_request():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    form = EditProfileForm(current_user.original_username)
+    form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
@@ -101,3 +101,37 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile',form=form)
+
+@app.route
+@login_required
+def follow(username):
+    user = Users.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('indes'))
+
+    if user == current_user:
+        flash('You cannot follow yourself')
+        return redirect(url_for('index'))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are noe following {}!'.format(username))
+    return redirect(url_for('user', username=username))
+
+
+@app.route
+@login_required
+def unfollow(username):
+    user = Users.query.filter_by(username=username).first()
+    if user is None:
+        flash ('User {} not found .'.format(username))
+        return redirect(url_for('index'))
+
+    if user == current_user:
+        flash('You cannot unfollow yourself!')
+        return redirect(url_for('user', username=username))
+
+    current_user.follow(user)
+    db.session.commit()
+    flash ('You have stopped following {}.'.format(username))
+    return redirect(url_for('user', username=username))

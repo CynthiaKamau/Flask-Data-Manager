@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, BooleanField, TextAreaField, SubmitField
+from wtforms import PasswordField, StringField, IntegerField, BooleanField, TextAreaField, SubmitField
 from wtforms.validators  import ValidationError, DataRequired, Email, EqualTo, Length
-from application.models import User
+from application.models import Users
 
 class LoginForm (FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -21,12 +21,12 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
+        user = Users.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        user = Users.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email')
 
@@ -36,7 +36,7 @@ class EditProfileForm (FlaskForm):
     submit = SubmitField('Submit')
 
     def __init__(self, original_username, *args, **kwargs) :
-        super(EditedProfileFOrm, self).__init__(*args, **kwargs)
+        super(EditProfileForm, self).__init__(*args, **kwargs)
         self.original_username = original_username
 
     def validate_username(self, username):
@@ -45,6 +45,20 @@ class EditProfileForm (FlaskForm):
 
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+class SampleForm (FlaskForm):
+    types = StringField ('Type of Sample', validator=[DataRequired(), Length(min=1, max=85)])
+    species = StringField ('Type of Species', validator=[DataRequired(), Length(min=1, max=85)])
+    location_collected = StringField ('Area, County, Country', validator=[DataRequired(), Length(min=1, max=85)])
+    project = StringField ('Project it belongs', validator=[DataRequired(), Length(min=1, max=85)])
+    owner = StringField ('The owner of the project', validator=[DataRequired(), Length(min=1, max=85)])
+    retension_period = IntegerField ('Retension of the sample in months', validator=[DataRequired(), Length(min=1, max=85)])
+    barcode = StringField ('Barcode Number', validator=[DataRequired(), Length(min=1, max=85)])
+    analysis = StringField ('Type analysis carried out', validator=[DataRequired(), Length(min=1, max=85)])
+    amount = IntegerField ('Amount of Sample', validator=[DataRequired()])
+
+    submit = SubmitField('Submit')
+
     
 
 
