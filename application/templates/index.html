@@ -1,16 +1,17 @@
-{%extends "header.html"%}
+{% extends "header.html" %}
 
-{%block content%}
+{% block content %}
 
     <h1> Hello, {{current_user.username}} ? </h1>
+    {% if form %}
 
     <form action="" method="POST">
         {{ form.hidden_tag() }}
 
          <p>
-            {{form.types.label}}<br>
-            {{form.types(size=50)}} <br>
-            {% for error in form.types.errors %}
+            {{form.description.label}}<br>
+            {{ form.description(cols=32, rows=6) }}<br>
+            {% for error in form.description.errors %}
             <span style="color: blue;"> [{{ error }}]</span>
             {% endfor%}
         </p>
@@ -77,11 +78,19 @@
         <p> {{ form.submit() }}</p>
 
     </form>
+    {% endif %}
+    {% for sample in samples%}
+        {% include '_post.html' %}
+    {% endfor %}
 
-    {%for sample in samples %}
-    <div> <p> {{sample.researcher.username}} </p>  
-    <p> It says </b> {{sample.species}} </b> <br> </div>
-    {%endfor%}
+    {% if prev_url %}
+    <a href="{{ prev_url}}"> Newer Posts</a>
+    {% endif %}
+
+    {% if next_url %}
+    <a href="{{ next_url}}"> Older Posts</a>
+    {% endif %}
+
 
 {%endblock%}
 

@@ -1,6 +1,8 @@
+from time import time
+import jwt
 from datetime import datetime
 from hashlib import md5
-from application import db, login
+from application import db, login, app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -28,6 +30,20 @@ class Users(UserMixin, db.Model):
 
     def check_password(self, password) :
         return check_password_hash(self.password_hash, password)
+
+    def get_reset_password_token(self, expires_in=600):
+        return jwt.encode(
+            {'reset_password: self.id, 'exp': time() + expires_in},
+            app.config['SECTRE_KEY'], algorithm='HS256').decode('utf-8')
+
+        @staticmethod
+        def verify_reset_password_token(token):
+            try:
+                id = jwt.decode(token, app['SECTRE_KEY'], algoriths=['HS256'])['reser_password']
+            
+            except:
+                return
+            return Users.query.get(id)
 
     def avatar(self, size) :
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
@@ -68,7 +84,7 @@ def load_user(id) :
 
 class Sample(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    types = db.Column(db.String(64))
+    description = db.Column(db.String(64))
     species = db.Column(db.String(165))
     location_collected = db.Column(db.String(165))
     project = db.Column(db.String(165))
@@ -82,6 +98,6 @@ class Sample(db.Model):
 
 
     def __repr__(self) :
-        return '<Sample {}>'.format(self.types,self.species,self.location_collected, self.project, self.owner,self.retension_period,self.barcode,self.analysis,self.amount, self.users_id,self.timestamp)
+        return '<Sample {}>'.format(self.description,self.species,self.location_collected, self.project, self.owner,self.retension_period,self.barcode,self.analysis,self.amount, self.users_id,self.timestamp)
 
 

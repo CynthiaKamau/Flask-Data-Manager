@@ -1,4 +1,4 @@
-export DATABASE_URL='postgresql://shiro:zoom@localhost/application'
+export DATABASE_URL='postgresql://shiro:zoom@localhost/dataproject'
 
 export FLASK_APP=dataproject.py
 

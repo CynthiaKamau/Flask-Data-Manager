@@ -1,0 +1,6 @@
+INSERT INTO sample (id,description,species,location_collected,project,owner,retension_period,barcode,analysis,amount,users_id,timestamp) VALUES(2, 'tsetse fly', 'Glossina palpalis gambiensis', 'kilifi', 'h3bionet', 'Duncan Masiga', 2, '123abc', 'Sequencing',100,1, DEFAULT);
+
+INSERT INTO sample (id,description,species,location_collected,project,owner,retension_period,barcode,analysis,amount,users_id,timestamp) VALUES(2, 'Mosquito', 'Culex fatigans', 'kakamega', 'h3bionet', 'Caleb K', 2, '123abc', 'Analysis',120,2, DEFAULT);
+
+
+

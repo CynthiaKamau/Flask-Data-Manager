@@ -1,6 +1,7 @@
 <table>
-    <tr>
+    <tr valign="top">
         <td> <img src="{{ sample.researcher.avatar(36) }}"> </td>
-        <td> {{sample.researcher.username }} published: <br> {{ sample.species }}</td>
+        <td> <a href="{{ url_for('user', username=sample.researcher.username)}}"> {{ sample.researcher.username}}</a> Uploaded : <br> {{sample.description}} <br> {{sample.species}} <br> <b>Project Owner by :  </b> {{sample.owner}} 
+        </a></td>
     </tr>
 </table>

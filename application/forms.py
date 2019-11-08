@@ -47,18 +47,23 @@ class EditProfileForm (FlaskForm):
                 raise ValidationError('Please use a different username.')
 
 class SampleForm (FlaskForm):
-    types = StringField ('Type of Sample', validator=[DataRequired(), Length(min=1, max=85)])
-    species = StringField ('Type of Species', validator=[DataRequired(), Length(min=1, max=85)])
-    location_collected = StringField ('Area, County, Country', validator=[DataRequired(), Length(min=1, max=85)])
-    project = StringField ('Project it belongs', validator=[DataRequired(), Length(min=1, max=85)])
-    owner = StringField ('The owner of the project', validator=[DataRequired(), Length(min=1, max=85)])
-    retension_period = IntegerField ('Retension of the sample in months', validator=[DataRequired(), Length(min=1, max=85)])
-    barcode = StringField ('Barcode Number', validator=[DataRequired(), Length(min=1, max=85)])
-    analysis = StringField ('Type analysis carried out', validator=[DataRequired(), Length(min=1, max=85)])
-    amount = IntegerField ('Amount of Sample', validator=[DataRequired()])
+    description = StringField ('Description of Sample', validators=[Length(min=1, max=255)])
+    species = StringField ('Type of Species', validators=[Length(min=1, max=85)])
+    location_collected = StringField ('Area, County, Country', validators=[Length(min=1, max=85)])
+    project = StringField ('Project it belongs', validators=[DataRequired(), Length(min=1, max=85)])
+    owner = StringField ('The owner of the project', validators=[Length(min=1, max=85)])
+    retension_period = IntegerField ('Retension of the sample in months', validators=[DataRequired()])
+    barcode = StringField ('Barcode Number', validators=[Length(min=1, max=85)])
+    analysis = StringField ('Type analysis carried out', validators=[Length(min=1, max=85)])
+    amount = IntegerField ('Amount of Sample', validators=[DataRequired()])
 
     submit = SubmitField('Submit')
 
-    
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset Link')
 
-
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validator=[DataRequired() ])
+    password2 = PasswordField('Repeat Password', validator=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Request Password Reset')
