@@ -1,6 +1,6 @@
 {% extends "header.html" %}
 
-{% block content%}
+{% block app_content%}
     <h1> User Registration</h1>
         <form action="" method="POST" novalidate>
             {{form.hidden_tag() }}
@@ -29,6 +29,6 @@
 
         </form>
 
-        <p> Forgot password <a href="{{url_for('reset_password')}}"> Click to reset password</a></p>
+        <p> Forgot password <a href="{{url_for('reset_password_request')}}"> Click to reset password</a></p>
 
 {% endblock %}

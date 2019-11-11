@@ -1,0 +1,98 @@
+{% extends "header.html" %}
+
+{% block app_content %}
+
+    <h1> Hello, {{current_user.username}} ? </h1>
+    {% if form %}
+
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+
+         <p>
+            {{form.description.label}}<br>
+            {{ form.description(cols=32, rows=6) }}<br>
+            {% for error in form.description.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+
+         <p>
+            {{form.species.label}}<br>
+            {{form.species(size=50)}} <br>
+            {% for error in form.species.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+
+         <p>
+            {{form.location_collected.label}}<br>
+            {{form.location_collected(size=50)}} <br>
+            {% for error in form.location_collected.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+
+         <p>
+            {{form.project.label}}<br>
+            {{form.project(size=50)}} <br>
+            {% for error in form.project.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+         <p>
+            {{form.owner.label}}<br>
+            {{form.owner(size=50)}} <br>
+            {% for error in form.owner.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+         <p>
+            {{form.retension_period.label}}<br>
+            {{form.retension_period(size=50)}} <br>
+            {% for error in form.retension_period.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+         <p>
+            {{form.barcode.label}}<br>
+            {{form.barcode(size=50)}} <br>
+            {% for error in form.barcode.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+         <p>
+            {{form.analysis.label}}<br>
+            {{form.analysis(size=50)}} <br>
+            {% for error in form.analysis.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+         <p>
+            {{form.amount.label}}<br>
+            {{form.amount(size=50)}} <br>
+            {% for error in form.amount.errors %}
+            <span style="color: blue;"> [{{ error }}]</span>
+            {% endfor%}
+        </p>
+
+        <p> {{ form.submit() }}</p>
+
+    </form>
+    {% endif %}
+    {% for sample in samples%}
+        {% include '_post.html' %}
+    {% endfor %}
+
+    {% if prev_url %}
+    <a href="{{ prev_url}}"> Newer Posts</a>
+    {% endif %}
+
+    {% if next_url %}
+    <a href="{{ next_url}}"> Older Posts</a>
+    {% endif %}
+
+
+{%endblock%}
+
+ 
+

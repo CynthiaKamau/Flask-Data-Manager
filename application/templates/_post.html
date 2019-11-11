@@ -1,7 +1,12 @@
-<table>
-    <tr valign="top">
-        <td> <img src="{{ sample.researcher.avatar(36) }}"> </td>
-        <td> <a href="{{ url_for('user', username=sample.researcher.username)}}"> {{ sample.researcher.username}}</a> Uploaded : <br> {{sample.description}} <br> {{sample.species}} <br> <b>Project Owner by :  </b> {{sample.owner}} 
+<table class="table table-hover">
+    <tr>
+        <td width="85px">
+                <a href="{{ url_for('user', username=sample.researcher.username)}}">
+                <img src="{{ sample.researcher.avatar(36) }}"/> </a>
+        <td> 
+            <a href="{{ url_for('user', username=sample.researcher.username)}}"> 
+                    {{ sample.researcher.username}}</a> Uploaded : <br> {{sample.description}} <br>
+                     {{sample.species}} <br> <b>Project Owner by :  </b> {{sample.owner}} 
         </a></td>
     </tr>
 </table>
