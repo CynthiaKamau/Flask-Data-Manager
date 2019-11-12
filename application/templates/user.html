@@ -4,12 +4,20 @@
 
     <table>
         <tr valign="top">
-                <td><img src="{{ user.avatar(128) }}"></td>            
+            <td>
+               
+                <div class="col-md-4">
+                    <img src="{{ user.avatar(128) }}">
+                     </div> </td> 
+
                 <td>
+                
                 <h3> User: {{ user.username }} </h3>
-                {% if user.about_me %} <p> {{user.about_me }} </p>
+                {% if user.about_me %} 
+                <p> {{user.about_me }} </p>
                 {% endif %}
-                {% if user.last_seen %} <p> Last seen on : {{ user.last_seen }} </p>
+                {% if user.last_seen %} 
+                <p> Last seen on : {{ moment (user.last_seen).format('LLLL') }} </p>
                 {% endif %}
                 <p> {{user.followers.count() }} followers, {{ user.followed.count()}} following.</p>
                 {% if user == current_user %}
@@ -21,7 +29,8 @@
                 {% else %}
                 <p><a href=" {{ url_for('unfollow', username=user.username) }}">Unfollow</a>"</p>
                 {% endif%}
-
+               
+                </td>
 
         </tr>
     </table>

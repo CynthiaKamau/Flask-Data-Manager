@@ -14,25 +14,34 @@ def before_request():
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
 
-@app.route ('/', methods=['GET', 'POST'])
-@app.route ('/index', methods=['GET', 'POST'])
-@login_required
+@app.route ('/')
+@app.route ('/index')
 def index () :
-    form = SampleForm()
-    if form.validate_on_submit():
-        sample = Sample( description= form.sample.data, species= form.sample.data, location_collected= form.sample.data, project= form.sample.data, owner= form.sample.data, retension_period= form.sample.data, barcode= form.sample.data, analysis= form.sample.data, amount=form.sample.data, researcher=current_user)
-        db.session.add(sample)
-        db.session.commit()
-        flash('Your post is now live!')
-
     page = request.args.get('page', 1, type=int)
-    samples = current_user.followed_samples(). paginate(
+    samples = Sample.query.order_by(Sample.timestamp.desc()).paginate(
         page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('index', page=samples.next_num) \
+
+    next_url = url_for('search', page=samples.next_num) \
         if samples.has_next else None
-    prev_url = url_for('index', page=samples.prev_num) \
+    prev_url = url_for('search', page=samples.prev_num) \
         if samples.has_prev else None
-    return render_template("index.html", title ="Home Page", form=form, samples=samples.items, next_url=next_url, prev_url=prev_url)
+
+    return render_template('index.html', title='Welcome', samples=samples.items, next_url=next_url, prev_url =prev_url)
+
+
+@app.route('/user/<username>')
+@login_required
+def user(username) :
+    user = Users.query.filter_by(username =username).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    samples = user.samples.order_by(Sample.timestamp.desc()).paginate(
+        page, app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('user', username= user.username,page=samples.next_num) \
+        if samples.has_next else None
+    prev_url = url_for('user', username=user.username, page=samples.prev_num) \
+        if samples.has_prev else None
+    
+    return render_template('user.html', user=user, samples=samples.items, next_url=next_url, prev_url=prev_url)
 
 
 @app.route ('/login', methods= ['GET', 'POST'])
@@ -75,19 +84,6 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Registration', form=form)
 
-@app.route('/user/<username>')
-@login_required
-def user(username) :
-    user = Users.query.filter_by(username =username).first_or_404()
-    page = request.args.get('page', 1, type=int)
-    samples = user.samples.order_by(Sample.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('user', username= user.username,page=samples.next_num) \
-        if samples.has_next else None
-    prev_url = url_for('user', username=user.username, page=samples.prev_num) \
-        if samples.has_prev else None
-    
-    return render_template('user.html', user=user, samples=samples.items, next_url=next_url, prev_url=prev_url)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -138,20 +134,6 @@ def unfollow(username):
     flash ('You have stopped following {}.'.format(username))
     return redirect(url_for('user', username=username))
 
-@app.route('/search')
-@login_required
-def search():
-    page = request.args.get('page', 1, type=int)
-    samples = Sample.query.order_by(Sample.timestamp.desc()).paginate(
-        page, app.config['POSTS_PER_PAGE'], False)
-
-    next_url = url_for('search', page=samples.next_num) \
-        if samples.has_next else None
-    prev_url = url_for('explore', page=samples.prev_num) \
-        if samples.has_prev else None
-
-    return render_template('index.html', title='Search Samples', samples=samples.items, next_url=next_url, prev_url =prev_url)
-
 @app.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
@@ -191,7 +173,7 @@ def add_sample():
         sample = Sample( description= form.sample.data, species= form.sample.data, location_collected= form.sample.data, project= form.sample.data, owner= form.sample.data, retension_period= form.sample.data, barcode= form.sample.data, analysis= form.sample.data, amount=form.sample.data, researcher=current_user)
         db.session.add(sample)
         db.session.commit()
-        flash('Your post is now live!')
+        flash('Your sample is now live!')
 
     page = request.args.get('page', 1, type=int)
     samples = current_user.followed_samples(). paginate(
@@ -200,5 +182,5 @@ def add_sample():
         if samples.has_next else None
     prev_url = url_for('index', page=samples.prev_num) \
         if samples.has_prev else None
-    return render_template("index.html", title ="Home Page", form=form, samples=samples.items, next_url=next_url, prev_url=prev_url)
+    return render_template("a.html", title ="Home Page", form=form, samples=samples.items, next_url=next_url, prev_url=prev_url)
 

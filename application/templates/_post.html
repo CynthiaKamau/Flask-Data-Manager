@@ -5,8 +5,10 @@
                 <img src="{{ sample.researcher.avatar(36) }}"/> </a>
         <td> 
             <a href="{{ url_for('user', username=sample.researcher.username)}}"> 
+                    {{ sample.researcher.username }} </a>
+                    Uploaded at {{ moment(sample.timestamp).fromNow() }}: <br>
                     {{ sample.researcher.username}}</a> Uploaded : <br> {{sample.description}} <br>
-                     {{sample.species}} <br> <b>Project Owner by :  </b> {{sample.owner}} 
-        </a></td>
+                    {{ sample.species}} <br> <b>Project Owner by :  </b> {{sample.owner}} 
+        </td>
     </tr>
 </table>

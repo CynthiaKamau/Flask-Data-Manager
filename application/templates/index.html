@@ -1,11 +1,14 @@
 {% extends "header.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
-{% for sample in samples %}
-    {% include '_post.html' %}
-{% endfor %}
-
 {% block app_content %}
+    <h1>Hi, {{ current_user.username }}!</h1>
+    <h2> Get All The Information On Exsisting Samples </h2>
+  
+    {% for sample in samples %}
+        {% include '_post.html' %}
+    {% endfor %}
+
     <nav aria-label="">
         <ul class="pager">
             <li class="previous {% if not prev_url %} disables {% endif%}">
