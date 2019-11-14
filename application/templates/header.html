@@ -1,4 +1,6 @@
 {% include "root.html" %}
+{{ moment.include_jquery() }}
+{{ moment.include_moment() }}
 
 {% block title%}
     {% if title %} {{ title}} - Data Manager {% else %} Welcome to DataManager {% endif %}
@@ -49,12 +51,6 @@
         {% block app_content %} {% endblock %}
     </div>
 
-    {% block scripts %}
- 
-    {{ moment.include_jquery() }}
-    {{ moment.include_moment() }}
-
-{% endblock %}
 
 
 {% endblock %}
