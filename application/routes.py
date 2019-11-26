@@ -1,7 +1,8 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.urls import url_parse
+from flask_babel import _, get_locale
 from application import app, db
 from application.models import Users, Sample
 from application.email import send_password_reset_email
@@ -13,6 +14,7 @@ def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+    g.locale = str(get_locale())
 
 @app.route ('/')
 @app.route ('/index')
@@ -53,7 +55,7 @@ def login ():
     if form.validate_on_submit():
         user = Users.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data) :
-            flash ('Invalid username or password')
+            flash (_('Invalid username or password'))
             return redirect(url_for('login'))
 
         login_user(user, remember=form.remember_me.data)
@@ -80,7 +82,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Sucessfully registered as a new user')
+        flash(_('Sucessfully registered as a new user'))
         return redirect(url_for('login'))
     return render_template('register.html', title='Registration', form=form)
 
@@ -105,7 +107,7 @@ def edit_profile():
 def follow(username):
     user = Users.query.filter_by(username=username).first()
     if user is None:
-        flash('User {} not found.'.format(username))
+        flash(_('User %(username)s not found.', username=username))
         return redirect(url_for('indes'))
 
     if user == current_user:

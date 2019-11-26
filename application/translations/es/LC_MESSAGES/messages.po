@@ -1,0 +1,71 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-11-25 17:23+0300\n"
+"PO-Revision-Date: 2019-11-25 17:24+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: application/email.py:20
+msgid "[Sample DataManager] Reset Password"
+msgstr " [Sample DataMaanger] Nueva Contraseña"
+
+#: application/forms.py:8
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: application/forms.py:9
+msgid "Password"
+msgstr "Contraseña"
+
+#: application/forms.py:10
+msgid "Remember me"
+msgstr "Recordarme"
+
+#: application/routes.py:58
+msgid "Invalid username or password"
+msgstr ""
+
+#: application/routes.py:85
+msgid "Sucessfully registered as a new user"
+msgstr ""
+
+#: application/routes.py:110
+#, python-format
+msgid "User %(username)s not found."
+msgstr "El usuario %(username)s no ha sido encontrado."
+
+#: application/templates/404.html:4
+msgid "File not Found"
+msgstr "Página No Encontrada"
+
+#: application/templates/500.html:4
+msgid "An unexpected error has occured"
+msgstr "Ha ocurrido un error inesperado"
+
+#: application/templates/500.html:5
+msgid "The administrator has been notified. We will get back soon"
+msgstr ""
+
+#: application/templates/_post.html:15
+#, python-format
+msgid "%(username)s Uploaded %(when)s"
+msgstr "%(username)s dijo %(when)s"
+
+#: application/templates/index.html:5
+#, python-format
+msgid "Hi, %(username)s!"
+msgstr ""
+

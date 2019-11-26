@@ -1,6 +1,7 @@
 {% include "root.html" %}
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
+{{ moment.lang(g.locale) }}
 
 {% block title%}
     {% if title %} {{ title}} - Data Manager {% else %} Welcome to DataManager {% endif %}

@@ -1,6 +1,31 @@
-INSERT INTO sample (id,description,species,location_collected,project,owner,retension_period,barcode,analysis,amount,users_id,timestamp) VALUES(2, 'tsetse fly', 'Glossina palpalis gambiensis', 'kilifi', 'h3bionet', 'Duncan Masiga', 2, '123abc', 'Sequencing',100,1, DEFAULT);
+INSERT INTO role(id, code, name, description) VALUES (1, 'SWC_453', 'Professor', 'I am a Bioinformatics expert'); - role
 
-INSERT INTO sample (id,description,species,location_collected,project,owner,retension_period,barcode,analysis,amount,users_id,timestamp) VALUES(2, 'Mosquito', 'Culex fatigans', 'kakamega', 'h3bionet', 'Caleb K', 2, '123abc', 'Analysis',120,2, DEFAULT);
+INSERT INTO users(id, first_name, last_name, email, password, role_id) VALUES (1, 'cynthia', 'jones', 'cynthia@gmail.com', 'dfgvcdfg', 1); - user
+
+INSERT INTO theme(id, code, name) VALUES (1, 'PLN_345', 'Plant Health'); - theme
+
+INSERT INTO sample(id, theme_id, user_id, box_id, animal_species, sample_type, sample_description, location_collected, project, project_owner, retention_period, barcode, analysis, temperature, amount, code) VALUES(2, 1, 1, 1,'Glossina palpalis gambiensis','tsetse fly', 'A big fly', 'kilifi', 'h3bionet', 'Duncan Masiga', 2, '123abc', 'Sequencing',12,100, 'EMB_758');
+
+INSERT INTO publication(id, sample_id, sample_results, publication_title, co_authors) VALUES (1,2,'Successful', 'The road to Locust Havest', 'Jeff K'); - publication
+
+INSERT INTO laboratory(id, name, room, code) VALUES (1, 'MBBU', 1, 'LKJ_678'); - Lab
+
+INSERT INTO freezer(id, laboratory_id, number, room, code) VALUES (1, 1, 1, 1, 'FDS_345'); - Freezer
+
+INSERT INTO chamber(id, freezer_id, type, code) VALUES (1, 1, 'Middle', 'CXZ_678'); - Chamber
+
+INSERT INTO rack(id, chamber_id, number, code) VALUES (1, 1, 1, 'REW_346'); -rack
+
+INSERT INTO tray(id, rack_id, number, code) VALUES (1, 1, 1, 'TRE_647'); -tray
+
+INSERT INTO box(id, tray_id, label) VALUES (1, 1, 'Top'); -box
+
+sample = Sample( theme_id =theme_id, user_id = user_id, box_id = box_id, animal_species =animal_species, sample_type= sample_type,
+                        sample_description = sample_description, location_collected= location_collected, project =project, project_owner = project_owner,
+                        retention_period = retention_period, barcode=barcode, temperature=temperature,amount= amount  )
+        BaseModel.db.session.add(sample)
+        BaseModel.db.session.commit()
+        return BaseResource.send_json_message("Updated the Sample", 200)
 
 
 
